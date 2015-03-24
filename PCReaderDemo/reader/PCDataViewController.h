@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSDictionary *attributes;
 @property (strong, nonatomic) PCPageView *pageView;
 @property (strong, nonatomic) UILabel *progressLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
 
 @property (nonatomic) NSInteger currentPage;
 @property (nonatomic) NSInteger totalPage;

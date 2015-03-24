@@ -22,6 +22,7 @@
 		2E6B09C61AAD7AD80032B6BE /* PCReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09C51AAD7AD80032B6BE /* PCReaderViewController.m */; };
 		2E6B09C91AAD838C0032B6BE /* PCDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09C81AAD838C0032B6BE /* PCDataViewController.m */; };
 		2E6B09CC1AAD84640032B6BE /* PCModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09CB1AAD84640032B6BE /* PCModelViewController.m */; };
+		2E90525D1AC16CE400465DC8 /* PCReaderTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E90525C1AC16CE400465DC8 /* PCReaderTool.m */; };
 		2E9116801AB7C8C9007F92E1 /* PCCollectViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E91167F1AB7C8C9007F92E1 /* PCCollectViewModel.m */; };
 		2E9116831AB7CCE1007F92E1 /* PCPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9116821AB7CCE1007F92E1 /* PCPageCell.m */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		2E6B09C81AAD838C0032B6BE /* PCDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCDataViewController.m; sourceTree = "<group>"; };
 		2E6B09CA1AAD84640032B6BE /* PCModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCModelViewController.h; sourceTree = "<group>"; };
 		2E6B09CB1AAD84640032B6BE /* PCModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCModelViewController.m; sourceTree = "<group>"; };
+		2E90525B1AC16CE400465DC8 /* PCReaderTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCReaderTool.h; sourceTree = "<group>"; };
+		2E90525C1AC16CE400465DC8 /* PCReaderTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCReaderTool.m; sourceTree = "<group>"; };
 		2E91167E1AB7C8C9007F92E1 /* PCCollectViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCollectViewModel.h; sourceTree = "<group>"; };
 		2E91167F1AB7C8C9007F92E1 /* PCCollectViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCollectViewModel.m; sourceTree = "<group>"; };
 		2E9116811AB7CCE1007F92E1 /* PCPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPageCell.h; sourceTree = "<group>"; };
@@ -168,6 +171,8 @@
 				2E9116821AB7CCE1007F92E1 /* PCPageCell.m */,
 				2E151E371AAE97F8005260D6 /* PCPageView.h */,
 				2E151E381AAE97F8005260D6 /* PCPageView.m */,
+				2E90525B1AC16CE400465DC8 /* PCReaderTool.h */,
+				2E90525C1AC16CE400465DC8 /* PCReaderTool.m */,
 				2E151E3A1AAE9AD1005260D6 /* NSString+PCPaging.h */,
 				2E151E3B1AAE9AD1005260D6 /* NSString+PCPaging.m */,
 			);
@@ -280,6 +285,7 @@
 				2E6B09A41AAD76960032B6BE /* ViewController.m in Sources */,
 				2E151E3C1AAE9AD1005260D6 /* NSString+PCPaging.m in Sources */,
 				2E6B09A11AAD76960032B6BE /* AppDelegate.m in Sources */,
+				2E90525D1AC16CE400465DC8 /* PCReaderTool.m in Sources */,
 				2E151E391AAE97F8005260D6 /* PCPageView.m in Sources */,
 				2E6B09CC1AAD84640032B6BE /* PCModelViewController.m in Sources */,
 				2E9116831AB7CCE1007F92E1 /* PCPageCell.m in Sources */,

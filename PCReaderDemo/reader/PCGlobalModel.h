@@ -17,6 +17,7 @@ static NSString *kUpdatePageNotification = @"kUpdatePageNotification";
 @property (nonatomic, strong) NSDictionary *attributes;
 @property (nonatomic) CGFloat fontSize;
 @property (nonatomic) NSInteger currentPage;
+@property (nonatomic) NSRange currentRange;     //尚未使用
 
 + (instancetype)shareModel;
 

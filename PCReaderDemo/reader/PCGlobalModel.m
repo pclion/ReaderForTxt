@@ -58,15 +58,12 @@
 - (void)updateFontCompletion:(void (^)(void))completion
 {
     //取回之前的定位页数
-    NSRange range = NSMakeRange(NSNotFound, 0);
-    if (self.currentPage > 0 && self.currentPage < [self.rangeArray count]) {
-        range = NSRangeFromString(self.rangeArray[self.currentPage]);
-    }
+    NSRange range = self.currentRange;
     [self pagingTextCompletion:^{
         //重新定位页码
         [self.rangeArray enumerateObjectsUsingBlock:^(NSString *rangeStr, NSUInteger idx, BOOL *stop) {
             NSRange tempRange = NSRangeFromString(rangeStr);
-            if (tempRange.location <= range.location && tempRange.location + tempRange.length >= range.location) {
+            if (tempRange.location <= range.location && tempRange.location + tempRange.length > range.location) {
                 self.currentPage = idx;
                 *stop = YES;
             }
@@ -86,6 +83,12 @@
     } else {
         _fontSize = fontSize;
     }
+}
+
+- (void)setCurrentRange:(NSRange)currentRange
+{
+    _currentRange = currentRange;
+    NSLog(@"%@", NSStringFromRange(_currentRange));
 }
 
 @end

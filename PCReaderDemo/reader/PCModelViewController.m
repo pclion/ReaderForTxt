@@ -55,6 +55,7 @@
     }
     
     index--;
+    [PCGlobalModel shareModel].currentRange = NSRangeFromString(self.pageData[index]);
     return [self viewControllerAtIndex:index];
 }
 
@@ -69,6 +70,7 @@
     if (index == [self.pageData count]) {
         return nil;
     }
+    [PCGlobalModel shareModel].currentRange = NSRangeFromString(self.pageData[index]);
     return [self viewControllerAtIndex:index];
 }
 

@@ -60,10 +60,16 @@
     [self.view addSubview:self.menuButton];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_menuButton)]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.3 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.2 constant:0]];
     
     [self setupBackgroundView];
     [self setupToolbar];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)setupCollectionView
@@ -71,7 +77,7 @@
     [self.view addSubview:self.collectionView];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_collectionView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-30-[_collectionView]-30-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_collectionView]-40-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
     [self.view layoutIfNeeded];
     
     self.flowLayout.itemSize = self.collectionView.bounds.size;
@@ -168,6 +174,7 @@
     self.isShowMenu = !self.isShowMenu;
     
     [self.navigationController setNavigationBarHidden:!self.isShowMenu animated:YES];
+    [self setNeedsStatusBarAppearanceUpdate];
     self.backgroundView.hidden = !self.isShowMenu;
     if (self.isShowMenu) {
         [self showToolbar];
@@ -199,6 +206,11 @@
     return _modelController;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return !self.isShowMenu;
+}
+
 #pragma mark - UIPageViewController delegate methods
 
 - (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
@@ -217,6 +229,7 @@
 {
     NSInteger page = scrollView.contentOffset.y / scrollView.frame.size.height;
     [PCGlobalModel shareModel].currentPage = page;
+    [PCGlobalModel shareModel].currentRange = NSRangeFromString([PCGlobalModel shareModel].rangeArray[page]);
     [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
 }
 
@@ -228,7 +241,11 @@
         self.collectionViewModel.text = self.globalModel.text;
         self.collectionViewModel.attributes = self.globalModel.attributes;
         self.collectionViewModel.dataArray = self.globalModel.rangeArray;
+        self.collectionView.delegate = nil;
         [self.collectionView reloadData];
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[PCGlobalModel shareModel].currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
+        self.collectionView.delegate = self;
         
         self.modelController.text = self.globalModel.text;
         self.modelController.attributes = self.globalModel.attributes;
@@ -252,7 +269,10 @@
     if (self.collectionView.hidden) {
         [self pageControllerSetIndex:[PCGlobalModel shareModel].currentPage];
     } else {
+        self.collectionView.delegate = nil;
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[PCGlobalModel shareModel].currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
+        self.collectionView.delegate = self;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self backgroundAction];

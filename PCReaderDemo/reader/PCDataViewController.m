@@ -8,8 +8,11 @@
 
 #import "PCDataViewController.h"
 #import "PCGlobalModel.h"
+#import "PCReaderTool.h"
 
 @interface PCDataViewController ()
+
+@property (nonatomic, strong) PCReaderTool *readerTool;
 
 @end
 
@@ -21,10 +24,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.pageView];
     [self.view addSubview:self.progressLabel];
+    [self.view addSubview:self.timeLabel];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_pageView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-30-[_pageView]-30-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_pageView]-5-[_progressLabel]" options:NSLayoutFormatAlignAllRight metrics:nil views:NSDictionaryOfVariableBindings(_pageView, _progressLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_pageView]-40-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_progressLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView, _progressLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_progressLabel]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView, _progressLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_timeLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_timeLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_timeLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_timeLabel)]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage) name:kUpdatePageNotification object:nil];
 }
@@ -39,6 +46,20 @@
     [super viewWillAppear:animated];
     [self.pageView setAttributedText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
     [self.progressLabel setText:[NSString stringWithFormat:@"%ld/%ld", (long)self.currentPage + 1, (long)self.totalPage]];
+    
+    [self.readerTool startMonitorTimeWithBlock:^(NSDate *currentDate) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"HH:mm"];
+        NSString *datestr = [dateFormatter stringFromDate:currentDate];
+        self.timeLabel.text = datestr;
+    }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.readerTool stopMonitorTime];
 }
 
 - (void)updatePage
@@ -67,6 +88,25 @@
         _progressLabel.textColor = [UIColor blackColor];
     }
     return _progressLabel;
+}
+
+- (UILabel *)timeLabel
+{
+    if (!_timeLabel) {
+        _timeLabel = [[UILabel alloc] init];
+        _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _timeLabel.font = [UIFont systemFontOfSize:14];
+        _timeLabel.textColor = [UIColor blackColor];
+    }
+    return _timeLabel;
+}
+
+- (PCReaderTool *)readerTool
+{
+    if (!_readerTool) {
+        _readerTool = [[PCReaderTool alloc] init];
+    }
+    return _readerTool;
 }
 
 @end

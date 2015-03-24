@@ -46,7 +46,7 @@
         CFRelease(childFramesetter);
     } while (rangeIndex < attributedString.length && attributedString.length > 0);
     NSTimeInterval millionSecond = [[NSDate date] timeIntervalSinceDate:date];
-    NSLog(@"耗时 %lf", millionSecond);
+    NSLog(@"耗时 %@", [NSString stringWithFormat:@"%lf", millionSecond]);
     return resultRange;
 }
 
